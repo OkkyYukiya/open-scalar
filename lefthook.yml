@@ -1,0 +1,23 @@
+# Local git hooks. Install once with `lefthook install`.
+# CI runs the same checks; this is just early feedback on your machine.
+
+pre-commit:
+  parallel: true
+  commands:
+    gofmt:
+      glob: "*.go"
+      run: |
+        out=$(gofmt -l {staged_files})
+        if [ -n "$out" ]; then
+          echo "not gofmt-ed:"; echo "$out"; exit 1
+        fi
+    vet:
+      glob: "*.go"
+      run: go vet ./...
+
+pre-push:
+  commands:
+    test:
+      run: go test -race ./...
+    staticcheck:
+      run: staticcheck ./...
