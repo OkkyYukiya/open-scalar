@@ -1,5 +1,5 @@
 # Local git hooks. Install once with `lefthook install`.
-# CI runs the same checks; this is just early feedback on your machine.
+# Commands are defined in the Makefile; CI runs the same targets.
 
 pre-commit:
   parallel: true
@@ -17,7 +17,7 @@ pre-commit:
 
 pre-push:
   commands:
+    lint:
+      run: make lint
     test:
-      run: go test -race ./...
-    staticcheck:
-      run: staticcheck ./...
+      run: make test
