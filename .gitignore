@@ -32,4 +32,7 @@ go.work.sum
 # .idea/
 # .vscode/
 
-PLAN.md
+.local/
+# Build output
+/openscalar
+dist/
