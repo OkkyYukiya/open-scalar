@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    "group:allNonMajor"
+  ],
+  "timezone": "Asia/Tokyo",
+  "schedule": ["before 10am on monday"],
+  "labels": ["dependencies"],
+  "minimumReleaseAge": "3 days",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "rebaseWhen": "behind-base-branch",
+  "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"],
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["dependencies", "security"],
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "prPriority": 10
+  },
+  "packageRules": [
+    {
+      "description": "Go major updates: once a month, one PR",
+      "matchDatasources": ["go"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Go major dependencies",
+      "schedule": ["before 10am on the first day of the month"]
+    },
+    {
+      "description": "Keep Go toolchain version in sync across mise.toml and go.mod",
+      "matchPackageNames": ["go", "golang/go"],
+      "matchManagers": ["mise", "gomod"],
+      "groupName": "Go toolchain"
+    },
+    {
+      "description": "GitHub Actions: pin to digest, group together",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "pinDigests": true
+    }
+  ]
+}
